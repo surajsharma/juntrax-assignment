@@ -1,22 +1,32 @@
 const g = require("./graph");
 
+const bodyParser = require("body-parser");
+const path = require("path");
+
 const express = require("express");
 const app = express();
-const port = 3000;
+app.use(bodyParser.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => {
-    const data = {
-        1: [2, 3, 4, 5],
-        2: [6],
-        3: [6, 7],
-        4: [7, 8],
-        5: [8],
-    };
+app.use(bodyParser.json());
+const port = process.env.PORT || 5000;
 
+app.post("/getpaths", (req, res) => {
+    console.log("here", req.body.data.graph);
+    const data = req.body.data.graph;
     const x = g.getAllPaths(data, [1]);
     res.send(x);
 });
 
+if (process.env.NODE_ENV === "production") {
+    // Exprees will serve up production assets
+    app.use(express.static("client/build"));
+
+    // Express serve up index.html file if it doesn't recognize route
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+    });
+}
+
 app.listen(port, () =>
-    console.log(`Example app listening at http://localhost:${port}`)
+    console.log(`🍒 🥒 🍒  Server running on port ${port}  🍒 🥒 🍒`)
 );

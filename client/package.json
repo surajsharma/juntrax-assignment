@@ -5,6 +5,7 @@
   "keywords": [],
   "main": "src/index.js",
   "dependencies": {
+    "axios": "^0.21.0",
     "d3-drag": "2.0.0",
     "d3-force": "2.1.1",
     "d3-shape": "2.0.0",
@@ -23,6 +24,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
+  "proxy": "http://localhost:5000",
   "browserslist": [
     ">0.2%",
     "not dead",
