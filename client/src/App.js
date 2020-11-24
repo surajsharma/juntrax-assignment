@@ -61,9 +61,13 @@ export default function App() {
         5: [8],
     });
 
-    useEffect(() => {
+    const [graphData, setGraphData] = useState(input);
+    const [inputDisplay, setInputDisplay] = useState(JSON.stringify(input));
+
+    const handleInput = (e) => {
         // setPaths(getAllPaths(input));
-    }, []);
+        setInputDisplay(e.target.value);
+    };
 
     // the graph configuration, you only need to pass down properties
     // that you want to override, otherwise default ones will be used
@@ -87,13 +91,14 @@ export default function App() {
             <div style={{ display: "flex" }}>
                 INPUT HERE
                 <textarea
-                    onChange={(e) => setInput(e.target.value)}
-                    value={JSON.stringify(input)}
-                />{" "}
+                    style={{ height: "200px" }}
+                    onChange={handleInput}
+                    value={inputDisplay}
+                />
                 &nbsp;
                 <br />
-                <br />{" "}
-                <button onClick={() => getAllPaths(input)}>
+                <br />
+                <button onClick={() => getAllPaths(JSON.parse(inputDisplay))}>
                     Get All Paths / Redraw Graph
                 </button>
                 {"OUTPUT/PATHS HERE ->"}
@@ -103,7 +108,7 @@ export default function App() {
             </div>
             <Graph
                 id="graph-id" // id is mandatory, if no id is defined rd3g will throw an error
-                data={graphToData(input)}
+                data={graphToData(graphData)}
                 config={myConfig}
             />
         </div>
